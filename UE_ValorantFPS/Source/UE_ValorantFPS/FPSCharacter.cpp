@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h" 
 #include "Weapon.h"
+#include "AbilityComponent.h"
 
 // Sets default values
 AFPSCharacter::AFPSCharacter()
@@ -15,9 +16,12 @@ AFPSCharacter::AFPSCharacter()
 
 	// 카메라 컴포넌트 생성 및 초기설정
 	FPSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCameraComponent"));
+	AbilityComponent = CreateDefaultSubobject<UAbilityComponent>(TEXT("AbilityComponent"));
 
 	// 카메라를 캡슐컴포넌트에 붙이기
 	FPSCameraComponent->SetupAttachment(GetCapsuleComponent());
+
+	GetMesh()->SetupAttachment(FPSCameraComponent);
 
 	// 카메라가 플레이어 컨트롤러?회전을 따르도록 설정
 	FPSCameraComponent->bUsePawnControlRotation = true;
@@ -65,6 +69,14 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPSCharacter::OnFire);
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AFPSCharacter::OnReload);
+
+
+	PlayerInputComponent->BindAction("Q", IE_Pressed, this, &AFPSCharacter::OnAbilityQ);
+	PlayerInputComponent->BindAction("E", IE_Pressed, this, &AFPSCharacter::OnAbilityE);
+	PlayerInputComponent->BindAction("C", IE_Pressed, this, &AFPSCharacter::OnAbilityC);
+	PlayerInputComponent->BindAction("X", IE_Pressed, this, &AFPSCharacter::OnAbilityX);
+	
+
 }
 
 void AFPSCharacter::MoveForward(float Value)
@@ -95,6 +107,7 @@ void AFPSCharacter::MoveRight(float Value)
 	}
 }
 
+
 void AFPSCharacter::OnFire()
 {
 	if (CurrentWeapon)
@@ -108,6 +121,38 @@ void AFPSCharacter::OnReload()
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->Reload();
+	}
+}
+
+void AFPSCharacter::OnAbilityQ()
+{
+	if (AbilityComponent)
+	{
+		AbilityComponent->ActivateAbility(0);  // 0번 스킬 발동
+	}
+}
+
+void AFPSCharacter::OnAbilityE()
+{
+	if (AbilityComponent)
+	{
+		AbilityComponent->ActivateAbility(1);  // 1번 스킬 발동
+	}
+}
+
+void AFPSCharacter::OnAbilityC()
+{
+	if (AbilityComponent)
+	{
+		AbilityComponent->ActivateAbility(2);  // 2번 스킬 발동
+	}
+}
+
+void AFPSCharacter::OnAbilityX()
+{
+	if (AbilityComponent)
+	{
+		AbilityComponent->ActivateAbility(3);  // 3번 스킬 발동
 	}
 }
 

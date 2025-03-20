@@ -32,6 +32,11 @@ public:
 	void OnFire();
 	void OnReload();
 
+	void OnAbilityQ();
+	void OnAbilityE();
+	void OnAbilityC();
+	void OnAbilityX();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<class AWeapon> StartWeaponClass;
 
@@ -41,5 +46,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
 	class AWeapon* CurrentWeapon;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
+	class UAbilityComponent* AbilityComponent;
 
 };	
